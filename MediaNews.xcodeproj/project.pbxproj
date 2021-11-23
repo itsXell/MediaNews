@@ -11,6 +11,7 @@
 		103D6D12274D65EA00ABE70A /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D11274D65EA00ABE70A /* ApiKey.swift */; };
 		103D6D16274D677000ABE70A /* ArticleListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D14274D677000ABE70A /* ArticleListVM.swift */; };
 		103D6D17274D677000ABE70A /* ArticleVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D15274D677000ABE70A /* ArticleVM.swift */; };
+		103D6D1B274D68E900ABE70A /* NewsWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D1A274D68E900ABE70A /* NewsWebView.swift */; };
 		107801EE274D2AA80057ADFA /* NewsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107801ED274D2AA80057ADFA /* NewsListController.swift */; };
 		107801F1274D2AD50057ADFA /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107801F0274D2AD50057ADFA /* SearchController.swift */; };
 		107801F4274D2AE50057ADFA /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107801F3274D2AE50057ADFA /* ProfileController.swift */; };
@@ -35,6 +36,7 @@
 		103D6D11274D65EA00ABE70A /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		103D6D14274D677000ABE70A /* ArticleListVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleListVM.swift; sourceTree = "<group>"; };
 		103D6D15274D677000ABE70A /* ArticleVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleVM.swift; sourceTree = "<group>"; };
+		103D6D1A274D68E900ABE70A /* NewsWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWebView.swift; sourceTree = "<group>"; };
 		107801ED274D2AA80057ADFA /* NewsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListController.swift; sourceTree = "<group>"; };
 		107801F0274D2AD50057ADFA /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		107801F3274D2AE50057ADFA /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				107801F3274D2AE50057ADFA /* ProfileController.swift */,
 				107801F6274D2AF30057ADFA /* HomeController.swift */,
 				107801F9274D2B220057ADFA /* MoreController.swift */,
+				103D6D1A274D68E900ABE70A /* NewsWebView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				107801FD274D2BB20057ADFA /* MainTabBarController.swift in Sources */,
 				107801F1274D2AD50057ADFA /* SearchController.swift in Sources */,
 				1078020A274D3B920057ADFA /* NewsListView.swift in Sources */,
+				103D6D1B274D68E900ABE70A /* NewsWebView.swift in Sources */,
 				10B46319274D22DF00727A42 /* AppDelegate.swift in Sources */,
 				107801FA274D2B220057ADFA /* MoreController.swift in Sources */,
 				103D6D17274D677000ABE70A /* ArticleVM.swift in Sources */,

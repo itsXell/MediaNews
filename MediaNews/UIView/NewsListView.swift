@@ -30,7 +30,7 @@ class NewsListView: UIView {
     let tableView: UITableView = {
         let table = UITableView()
         table.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
-        table.allowsSelection = false
+        table.allowsSelection = true
         return table
     }()
     

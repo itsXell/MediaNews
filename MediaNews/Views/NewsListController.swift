@@ -16,7 +16,7 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
     private var articles: ArticleListVM!
     let bag = DisposeBag()
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialView()
@@ -74,5 +74,15 @@ extension NewsListController {
         currentArticle.title.asDriver(onErrorJustReturn: "Fail to Retrieve").drive(cell.titleLabel.rx.text).disposed(by: bag)
         currentArticle.description.asDriver(onErrorJustReturn: "Fail to Retrieve").drive(cell.descriptionLabel.rx.text).disposed(by: bag)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        let nextVc = NewsWebView()
+        let selectedUrl = articles.indexAt(index: indexPath.row).url
+        selectedUrl.subscribe(onNext: {
+            nextVc.urlString = $0
+        }).disposed(by: bag)
+        self.present(nextVc, animated: true, completion: nil)
     }
 }
