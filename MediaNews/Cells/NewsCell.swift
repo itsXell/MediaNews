@@ -19,25 +19,38 @@ class NewsCell: UITableViewCell {
     }
     
     private func setupUI() {
+        backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        addSubview(backgroundUIView)
+        backgroundUIView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundUIView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
+        backgroundUIView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
+        backgroundUIView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        backgroundUIView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10) .isActive = true
         addSubview(titleImage)
         titleImage.translatesAutoresizingMaskIntoConstraints = false
-        titleImage.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        titleImage.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        titleImage.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        titleImage.topAnchor.constraint(equalTo: self.backgroundUIView.topAnchor).isActive = true
+        titleImage.leftAnchor.constraint(equalTo: self.backgroundUIView.leftAnchor).isActive = true
+        titleImage.bottomAnchor.constraint(equalTo: self.backgroundUIView.bottomAnchor).isActive = true
         titleImage.widthAnchor.constraint(equalToConstant: self.bounds.width / 2).isActive = true
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: titleImage.rightAnchor, constant: 10).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: self.backgroundUIView.topAnchor, constant: 10).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: self.titleImage.rightAnchor, constant: 10).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: self.backgroundUIView.rightAnchor, constant: -10).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         addSubview(descriptionLabel)
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
-        descriptionLabel.leftAnchor.constraint(equalTo: titleImage.rightAnchor, constant: 10).isActive = true
-        descriptionLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 10).isActive = true
-        descriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 10).isActive = true
+        descriptionLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 10).isActive = true
+        descriptionLabel.leftAnchor.constraint(equalTo: self.titleImage.rightAnchor, constant: 10).isActive = true
+        descriptionLabel.rightAnchor.constraint(equalTo: self.backgroundUIView.rightAnchor, constant: -10).isActive = true
+        descriptionLabel.bottomAnchor.constraint(equalTo: self.backgroundUIView.bottomAnchor, constant: 10).isActive = true
     }
+    
+    let backgroundUIView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
     
     let titleImage: UIImageView = {
         let imageView = UIImageView()

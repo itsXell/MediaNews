@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		103D6CF5274D56C500ABE70A /* ArticleVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6CF4274D56C500ABE70A /* ArticleVM.swift */; };
 		103D6CF9274D56DF00ABE70A /* ArticleListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6CF8274D56DF00ABE70A /* ArticleListVM.swift */; };
+		103D6D0F274D65AF00ABE70A /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D0E274D65AF00ABE70A /* URLExtension.swift */; };
+		103D6D12274D65EA00ABE70A /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D11274D65EA00ABE70A /* ApiKey.swift */; };
 		107801EE274D2AA80057ADFA /* NewsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107801ED274D2AA80057ADFA /* NewsListController.swift */; };
 		107801F1274D2AD50057ADFA /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107801F0274D2AD50057ADFA /* SearchController.swift */; };
 		107801F4274D2AE50057ADFA /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107801F3274D2AE50057ADFA /* ProfileController.swift */; };
@@ -31,6 +33,8 @@
 /* Begin PBXFileReference section */
 		103D6CF4274D56C500ABE70A /* ArticleVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArticleVM.swift; path = MediaNews/Models/ArticleVM.swift; sourceTree = SOURCE_ROOT; };
 		103D6CF8274D56DF00ABE70A /* ArticleListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArticleListVM.swift; path = MediaNews/Models/ArticleListVM.swift; sourceTree = SOURCE_ROOT; };
+		103D6D0E274D65AF00ABE70A /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
+		103D6D11274D65EA00ABE70A /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		107801ED274D2AA80057ADFA /* NewsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListController.swift; sourceTree = "<group>"; };
 		107801F0274D2AD50057ADFA /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		107801F3274D2AE50057ADFA /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
@@ -84,6 +88,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		103D6D0D274D653400ABE70A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				103D6D0E274D65AF00ABE70A /* URLExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		107801EC274D2A840057ADFA /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				10780201274D35BA0057ADFA /* Article.swift */,
+				103D6D11274D65EA00ABE70A /* ApiKey.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -141,6 +154,7 @@
 		10B46317274D22DF00727A42 /* MediaNews */ = {
 			isa = PBXGroup;
 			children = (
+				103D6D0D274D653400ABE70A /* Extension */,
 				103D6CF3274D56A400ABE70A /* ViewModels */,
 				10780208274D3B7A0057ADFA /* UIView */,
 				10780204274D36B50057ADFA /* Cells */,
@@ -282,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				10780202274D35BA0057ADFA /* Article.swift in Sources */,
+				103D6D12274D65EA00ABE70A /* ApiKey.swift in Sources */,
 				107801F4274D2AE50057ADFA /* ProfileController.swift in Sources */,
 				10B4631D274D22DF00727A42 /* ViewController.swift in Sources */,
 				107801FD274D2BB20057ADFA /* MainTabBarController.swift in Sources */,
@@ -294,6 +309,7 @@
 				10B4631B274D22DF00727A42 /* SceneDelegate.swift in Sources */,
 				10B46323274D22DF00727A42 /* MediaNews.xcdatamodeld in Sources */,
 				10780206274D36CE0057ADFA /* NewsCell.swift in Sources */,
+				103D6D0F274D65AF00ABE70A /* URLExtension.swift in Sources */,
 				107801EE274D2AA80057ADFA /* NewsListController.swift in Sources */,
 				103D6CF5274D56C500ABE70A /* ArticleVM.swift in Sources */,
 			);
