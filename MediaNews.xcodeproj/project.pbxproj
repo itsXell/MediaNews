@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1004185B274E429C00A85EB2 /* SearchInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1004185A274E429C00A85EB2 /* SearchInController.swift */; };
+		1004185F274E45D000A85EB2 /* SearchInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1004185E274E45D000A85EB2 /* SearchInView.swift */; };
 		103D6D0F274D65AF00ABE70A /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D0E274D65AF00ABE70A /* URLExtension.swift */; };
 		103D6D12274D65EA00ABE70A /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D11274D65EA00ABE70A /* ApiKey.swift */; };
 		103D6D16274D677000ABE70A /* ArticleListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D6D14274D677000ABE70A /* ArticleListVM.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		1004185A274E429C00A85EB2 /* SearchInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInController.swift; sourceTree = "<group>"; };
+		1004185E274E45D000A85EB2 /* SearchInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInView.swift; sourceTree = "<group>"; };
 		103D6D0E274D65AF00ABE70A /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
 		103D6D11274D65EA00ABE70A /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		103D6D14274D677000ABE70A /* ArticleListVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleListVM.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				10780209274D3B920057ADFA /* NewsListView.swift */,
 				10DA23DF274DDDE100472566 /* SearchView.swift */,
 				10DA23E5274DE6F000472566 /* FilterView.swift */,
+				1004185E274E45D000A85EB2 /* SearchInView.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				10780202274D35BA0057ADFA /* Article.swift in Sources */,
+				1004185F274E45D000A85EB2 /* SearchInView.swift in Sources */,
 				10DA23E9274DF0C700472566 /* DateCell.swift in Sources */,
 				10DA23F3274E16A600472566 /* ApiKey-Sample.swift in Sources */,
 				10DA23E0274DDDE100472566 /* SearchView.swift in Sources */,

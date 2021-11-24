@@ -34,7 +34,7 @@ class FilterController: UIViewController {
     
     private func addFooterStackAction() {
         footerStack.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(click))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(stackviewTapped))
         footerStack.addGestureRecognizer(tap)
     }
 
@@ -78,8 +78,9 @@ class FilterController: UIViewController {
         datePicker.removeFromSuperview()
     }
     
-    @objc func click() {
-        print("Hello")
+    @objc func stackviewTapped() {
+        let nextVc = SearchInController()
+        navigationController?.pushViewController(nextVc, animated: true)
     }
     
 }

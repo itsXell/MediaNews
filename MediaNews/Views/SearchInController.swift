@@ -11,7 +11,15 @@ class SearchInController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        setupUI()
     }
+    
+    private func setupUI() {
+        let view = SearchInView(frame: self.view.frame)
+        self.view = view
+    }
+    
     
 
 
