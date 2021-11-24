@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Alamofire
+import Presentr
 
 class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -104,8 +105,27 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     @objc func didTapSortButton(sender: AnyObject){
-        
+        let controller = SortByController()
+        customPresentViewController(presenter, viewController: controller, animated: true, completion: nil)
+
     }
+    
+    let presenter: Presentr = {
+        let width = ModalSize.full
+        let height = ModalSize.fluid(percentage: 0.5)
+        let center = ModalCenterPosition.bottomCenter
+        let presentr = Presentr(presentationType: .custom(width: width, height: height, center: center))
+        presentr.roundCorners = true
+        presentr.cornerRadius = 10
+        presentr.backgroundColor = UIColor.black
+        presentr.backgroundOpacity = 0.7
+        presentr.transitionType = .coverVertical
+        presentr.dismissTransitionType = .coverVertical
+        presentr.dismissOnSwipe = true
+        presentr.dismissAnimated = true
+        presentr.dismissOnSwipeDirection = .default
+        return presentr
+    }()
     
     private func fetApi(keyword: String, filter: Filter) {
         guard let keywordEncode = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), let keyword = URL(string: keywordEncode) else {

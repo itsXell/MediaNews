@@ -24,6 +24,7 @@ class NewsWebView: UIViewController, WKNavigationDelegate {
         webView = WKWebView()
         webView.navigationDelegate = self
         view = webView
+        setupUI()
         loadURL()
     }
     
@@ -32,6 +33,22 @@ class NewsWebView: UIViewController, WKNavigationDelegate {
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
+    
+    private func setupUI() {
+        view.addSubview(dismissIndicator)
+        dismissIndicator.translatesAutoresizingMaskIntoConstraints = false
+        dismissIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        dismissIndicator.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10).isActive = true
+        dismissIndicator.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        dismissIndicator.heightAnchor.constraint(equalToConstant: 7).isActive = true
+    }
+    
+    let dismissIndicator: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 3
+        view.backgroundColor = .lightGray
+        return view
+    }()
 
 
 }
