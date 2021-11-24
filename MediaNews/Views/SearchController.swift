@@ -10,6 +10,7 @@ import UIKit
 class SearchController: UIViewController, UISearchControllerDelegate {
     
     var searchBar = UISearchController()
+    var NavController: UINavigationController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +53,9 @@ class SearchController: UIViewController, UISearchControllerDelegate {
     
     @objc func didTapFilter(sender: AnyObject){
         let vc = FilterController()
-        navigationController?.pushViewController(vc, animated: true)
+        NavController =  UINavigationController.init(rootViewController: vc)
+        NavController.modalPresentationStyle = .fullScreen
+        navigationController?.present(NavController, animated: true, completion: nil)
     }
     
     @objc func didTapSearchButton(sender: AnyObject){

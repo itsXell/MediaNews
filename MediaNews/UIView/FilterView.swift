@@ -22,7 +22,7 @@ class FilterView: UIView {
         backgroundColor = .white
         addSubview(headerStackView)
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
-        headerStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        headerStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant:  10).isActive = true
         headerStackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         headerStackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         headerStackView.heightAnchor.constraint(equalToConstant: 60).isActive = true

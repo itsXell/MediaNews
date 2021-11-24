@@ -24,16 +24,16 @@ class SearchInCell: UITableViewCell {
         titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
         addSubview(onOffSwitch)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        onOffSwitch.translatesAutoresizingMaskIntoConstraints = false
+        onOffSwitch.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        onOffSwitch.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
         
     }
     
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = UIColor.lightGray
+        label.textColor = UIColor.black
         label.textAlignment = .left
         label.text = "Search  in"
         return label

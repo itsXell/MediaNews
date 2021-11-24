@@ -22,6 +22,7 @@ class FilterController: UIViewController {
         setupView()
         showDatePicker()
         addFooterStackAction()
+        setupNavItems()
     }
     
     private func setupView() {
@@ -81,6 +82,27 @@ class FilterController: UIViewController {
     @objc func stackviewTapped() {
         let nextVc = SearchInController()
         navigationController?.pushViewController(nextVc, animated: true)
+    }
+    
+    @IBAction func handleDismiss(_ sender: Any?) {
+        self.dismiss(animated: true) {
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    private func setupNavItems() {
+        let dismissButton = UIButton(type: .system)
+        dismissButton.setImage(UIImage.init(systemName: "chevron.backward")!.withRenderingMode(.alwaysOriginal), for: .normal)
+        dismissButton.contentHorizontalAlignment = .center
+        dismissButton.contentVerticalAlignment = .center
+        dismissButton.addTarget(self, action: #selector(handleDismiss(_:)), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: dismissButton)
+        let clearBtn = UIButton(type: .system)
+        clearBtn.setImage(UIImage.init(systemName: "trash")!.withRenderingMode(.alwaysOriginal), for: .normal)
+        clearBtn.contentHorizontalAlignment = .center
+        clearBtn.contentVerticalAlignment = .center
+        clearBtn.addTarget(self, action: #selector(handleDismiss(_:)), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: clearBtn)
     }
     
 }
