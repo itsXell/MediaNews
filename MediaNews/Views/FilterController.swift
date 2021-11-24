@@ -15,6 +15,7 @@ class FilterController: UIViewController {
     var fromTxtField = UITextField()
     var endTxtField = UITextField()
     var footerStack = UIStackView()
+    var searchInResult = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class FilterController: UIViewController {
         self.fromTxtField = view.fromDateTxtField
         self.endTxtField = view.endDateTxtfield
         self.footerStack = view.footerStackview
+        self.searchInResult = view.searchInResult
         self.view = view
     }
     
@@ -82,6 +84,14 @@ class FilterController: UIViewController {
     @objc func stackviewTapped() {
         let nextVc = SearchInController()
         navigationController?.pushViewController(nextVc, animated: true)
+        nextVc.selectedValue.asObservable().subscribe(onNext: { [weak self] searches in
+            if searches.count == 3 {
+                self?.searchInResult.text = "All"
+            } else {
+                let concat = searches.joined(separator: ", ")
+                self?.searchInResult.text = concat
+            }
+        })
     }
     
     @IBAction func handleDismiss(_ sender: Any?) {
@@ -92,7 +102,7 @@ class FilterController: UIViewController {
     
     private func setupNavItems() {
         let dismissButton = UIButton(type: .system)
-        dismissButton.setImage(UIImage.init(systemName: "chevron.backward")!.withRenderingMode(.alwaysOriginal), for: .normal)
+        dismissButton.setImage(UIImage.init(systemName: "xmark")!.withRenderingMode(.alwaysOriginal), for: .normal)
         dismissButton.contentHorizontalAlignment = .center
         dismissButton.contentVerticalAlignment = .center
         dismissButton.addTarget(self, action: #selector(handleDismiss(_:)), for: .touchUpInside)
@@ -104,11 +114,5 @@ class FilterController: UIViewController {
         clearBtn.addTarget(self, action: #selector(handleDismiss(_:)), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: clearBtn)
     }
-    
-}
-
-extension FilterController {
-    
-   
     
 }

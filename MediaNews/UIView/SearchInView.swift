@@ -60,6 +60,7 @@ class SearchInView: UIView {
         button.setTitle("Apply", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(SearchInController.applyFilter), for: .touchUpInside)
         return button
     }()
     
