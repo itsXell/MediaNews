@@ -5,4 +5,5 @@ target 'MediaNews' do
    pod 'RxSwift'
    pod 'RxCocoa'
    pod 'Presentr'
+   pod 'AlamofireImage'
 end

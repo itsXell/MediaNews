@@ -15,7 +15,6 @@ class NewsWebView: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var urlString: String? = ""
     
-    
     deinit {
         self.webView.stopLoading()
     }

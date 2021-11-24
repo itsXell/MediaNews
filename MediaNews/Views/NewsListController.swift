@@ -8,14 +8,15 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Alamofire
+import AlamofireImage
 
 class NewsListController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-   
+    
     var tableView = UITableView()
     let tableCellID = "Cell"
     private var articles: ArticleListVM!
     let bag = DisposeBag()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,6 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.register(NewsCell.self, forCellReuseIdentifier: tableCellID)
     }
     
-    
     private func fetchApi() {
         let urlResource = Resource<MainArticle>(url: URL(string: "https://gnews.io/api/v4/search?q=example&token=\(ApiKey.apiKey)")!)
         URLRequest.load(resource: urlResource).subscribe(onNext: { articles in
@@ -50,8 +50,7 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }).disposed(by: bag)
     }
-
-
+    
 }
 
 extension NewsListController {
@@ -73,6 +72,13 @@ extension NewsListController {
         let currentArticle = articles.indexAt(index: indexPath.row)
         currentArticle.title.asDriver(onErrorJustReturn: "Fail to Retrieve").drive(cell.titleLabel.rx.text).disposed(by: bag)
         currentArticle.description.asDriver(onErrorJustReturn: "Fail to Retrieve").drive(cell.descriptionLabel.rx.text).disposed(by: bag)
+        currentArticle.image.asDriver(onErrorJustReturn: "").drive(onNext: { url in
+            AF.request(url).responseImage { response in
+                if case .success(let image) = response.result {
+                    cell.titleImage.image = image
+                }
+            }
+        }).disposed(by: bag)
         return cell
     }
     
