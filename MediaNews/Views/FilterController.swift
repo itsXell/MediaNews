@@ -19,14 +19,14 @@ class FilterController: UIViewController {
     var footerStack = UIStackView()
     var searchInResult = UILabel()
     let bag = DisposeBag()
-    let searchSubject = PublishSubject<Search>()
-    var searchValue: Observable<Search>{
+    let searchSubject = PublishSubject<Filter>()
+    var searchValue: Observable<Filter>{
         return searchSubject.asObservable()
     }
     var startDateString = BehaviorRelay<String>(value: "")
     var endDateString = BehaviorRelay<String>(value: "")
     var searchInRelay = BehaviorRelay<[String]>(value: [])
-    var searchRelay = BehaviorRelay<Search>(value: Search())
+    var searchRelay = BehaviorRelay<Filter>(value: Filter())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +70,7 @@ class FilterController: UIViewController {
         }).disposed(by: bag)
         self.searchInRelay.bind(onNext: { searches in
             self.searchInResult.rx.text.onNext(SearchInProducer.concatenatedArray(searches))
-        })
+        }).disposed(by: bag)
     }
 
     func showDatePicker() {
@@ -120,7 +120,7 @@ class FilterController: UIViewController {
     
     @objc func handleApply() {
         self.dismiss(animated: true, completion: {
-            let currentSearch = Search(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
+            let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
             self.searchRelay.accept(currentSearch)
         })
     }
@@ -129,7 +129,7 @@ class FilterController: UIViewController {
         endDateString.accept("")
         startDateString.accept("")
         searchInRelay.accept([])
-        searchRelay.accept(Search(startDate: "", endDate: "", searchIn: []))
+        searchRelay.accept(Filter(startDate: "", endDate: "", searchIn: []))
     }
     
     private func setupNavItems() {

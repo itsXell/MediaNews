@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Search {
+struct Filter {
     var startDate: String? = ""
     var endDate: String? = ""
     var searchIn: [String]? = [""]
