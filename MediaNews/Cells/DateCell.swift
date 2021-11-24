@@ -23,13 +23,13 @@ class DateCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        addSubview(dateTxtField)
-        dateTxtField.translatesAutoresizingMaskIntoConstraints = false
-        dateTxtField.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 10).isActive = true
-        dateTxtField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-        dateTxtField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
-        dateTxtField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
-        dateTxtField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        addSubview(dateTxtField!)
+        dateTxtField!.translatesAutoresizingMaskIntoConstraints = false
+        dateTxtField!.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 10).isActive = true
+        dateTxtField!.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
+        dateTxtField!.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        dateTxtField!.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
+        dateTxtField!.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     let titleLabel: UILabel = {
@@ -39,7 +39,7 @@ class DateCell: UITableViewCell {
         return label
     }()
     
-    let dateTxtField: UITextField = {
+    weak var dateTxtField: UITextField? = {
         let txtfield = UITextField()
         txtfield.placeholder = "yyyy/mm/dd"
         var bottomLine = CALayer()

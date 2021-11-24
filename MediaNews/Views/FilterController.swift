@@ -7,70 +7,85 @@
 
 import UIKit
 
-class FilterController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FilterController: UIViewController {
 
     var tableView = UITableView()
-    let cellID = "Cell"
-    let searchCellID = "SearchCellID"
-    let headerID = "HeaderCellID"
+    var toolBar = UIToolbar()
+    var datePicker  = UIDatePicker()
+    var fromTxtField = UITextField()
+    var endTxtField = UITextField()
+    var footerStack = UIStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setupView()
-        registerTableView()
+        showDatePicker()
+        addFooterStackAction()
     }
     
     private func setupView() {
         let view = FilterView(frame: self.view.frame)
-        self.tableView = view.tableView
+        self.fromTxtField = view.fromDateTxtField
+        self.endTxtField = view.endDateTxtfield
+        self.footerStack = view.footerStackview
         self.view = view
     }
     
-    private func registerTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(DateCell.self, forCellReuseIdentifier: cellID)
-        tableView.register(SearchInCell.self, forCellReuseIdentifier: searchCellID)
-        tableView.register(FilterHeaderView.self, forHeaderFooterViewReuseIdentifier: headerID)
+    private func addFooterStackAction() {
+        footerStack.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(click))
+        footerStack.addGestureRecognizer(tap)
+    }
+
+    func showDatePicker() {
+        self.fromTxtField.setInputViewDatePicker(target: self, selector: #selector(doneTappedFrom))
+        self.endTxtField.setInputViewDatePicker(target: self, selector: #selector(doneTappedEnd))
+    }
+    
+    @objc func doneTappedFrom() {
+        if let datePicker = self.fromTxtField.inputView as? UIDatePicker {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .long
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            self.fromTxtField.text = dateFormatter.string(from: datePicker.date)
+        }
+        self.fromTxtField.resignFirstResponder()
+    }
+    
+    @objc func doneTappedEnd() {
+        if let datePicker = self.endTxtField.inputView as? UIDatePicker {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .long
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            self.endTxtField.text = dateFormatter.string(from: datePicker.date)
+        }
+        self.endTxtField.resignFirstResponder()
+    }
+
+    @objc func dateChanged(_ sender: UIDatePicker?) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+            
+        if let date = sender?.date {
+            print("Picked the date \(dateFormatter.string(from: date))")
+        }
+    }
+
+    @objc func onDoneButtonClick() {
+        toolBar.removeFromSuperview()
+        datePicker.removeFromSuperview()
+    }
+    
+    @objc func click() {
+        print("Hello")
     }
     
 }
 
 extension FilterController {
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerID) as! FilterHeaderView
-        header.backgroundColor = .white
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row < 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! DateCell
-            cell.titleLabel.text = "From"
-            return cell
-        } else {
-            let cell =  tableView.dequeueReusableCell(withIdentifier: searchCellID, for: indexPath) as! SearchInCell
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            
-        }
-    }
+   
     
 }
