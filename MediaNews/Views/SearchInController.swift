@@ -16,13 +16,15 @@ class SearchInController: UIViewController, UITableViewDataSource, UITableViewDe
     var selectedValue: Observable<[String]>{
         return selectedValueSub.asObserver()
     }
-    var selectedArray = [String]()
+    let bag = DisposeBag()
+    var selectedArray = BehaviorRelay<[String]>(value: [])
     
     var tableView = UITableView()
     let cellID = "CellID"
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(selectedArray.value)
         view.backgroundColor = .white
         setupUI()
         registerTableView()
@@ -41,9 +43,7 @@ class SearchInController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func applyFilter() {
-        if !selectedArray.isEmpty {
-            selectedValueSub.onNext(selectedArray)
-        }
+        selectedValueSub.onNext(selectedArray.value)
         navigationController?.popViewController(animated: true)
     }
 
@@ -57,20 +57,25 @@ extension SearchInController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! SearchInCell
         cell.titleLabel.text = mockup[indexPath.row]
-        if selectedArray.contains(mockup[indexPath.row]) {
-            cell.onOffSwitch.isOn = true
-        } else {
-            cell.onOffSwitch.isOn = false
-        }
+        self.selectedArray.bind(onNext: { value in
+            if value.contains(self.mockup[indexPath.row]) {
+                cell.onOffSwitch.isOn = true
+            } else {
+                cell.onOffSwitch.isOn = false
+            }
+        }).disposed(by: bag)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if selectedArray.contains(mockup[indexPath.row]) {
-            selectedArray = selectedArray.filter({$0 != mockup[indexPath.row]})
+        if selectedArray.value.contains(mockup[indexPath.row]) {
+            let value = selectedArray.value
+            let newValue = value.filter({$0 != mockup[indexPath.row]})
+            selectedArray.accept(newValue)
         } else {
-            selectedArray.append(mockup[indexPath.row])
+            var value = selectedArray.value
+            value.append(mockup[indexPath.row])
+            selectedArray.accept(value)
         }
-        tableView.reloadData()
     }
 }

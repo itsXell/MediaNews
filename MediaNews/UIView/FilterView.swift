@@ -148,14 +148,14 @@ class FilterView: UIView {
         let label = UILabel()
         label.text = "Search In"
         label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = .gray
+        label.textColor = .black
         label.textAlignment = .left
         return label
     }()
     
     let searchInResult: UILabel = {
         let label = UILabel()
-        label.text = "All"
+        label.text = "None"
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = .gray
         label.textAlignment = .right
@@ -179,6 +179,7 @@ class FilterView: UIView {
         button.setTitle("Apply Filter", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(FilterController.handleApply), for: .touchUpInside)
         return button
     }()
 

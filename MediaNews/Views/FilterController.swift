@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class FilterController: UIViewController {
 
@@ -16,14 +18,25 @@ class FilterController: UIViewController {
     var endTxtField = UITextField()
     var footerStack = UIStackView()
     var searchInResult = UILabel()
-
+    let bag = DisposeBag()
+    let searchSubject = PublishSubject<Search>()
+    var searchValue: Observable<Search>{
+        return searchSubject.asObservable()
+    }
+    var startDateString = BehaviorRelay<String>(value: "")
+    var endDateString = BehaviorRelay<String>(value: "")
+    var searchInRelay = BehaviorRelay<[String]>(value: [])
+    var searchRelay = BehaviorRelay<Search>(value: Search())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupView()
+        initialCreatedValue()
         showDatePicker()
         addFooterStackAction()
         setupNavItems()
+        bindUIView()
     }
     
     private func setupView() {
@@ -40,6 +53,25 @@ class FilterController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(stackviewTapped))
         footerStack.addGestureRecognizer(tap)
     }
+    
+    private func initialCreatedValue() {
+        startDateString.accept(searchRelay
+                                .value.startDate!)
+        endDateString.accept(searchRelay.value.endDate!)
+        searchInRelay.accept(searchRelay.value.searchIn!)
+    }
+    
+    private func bindUIView(){
+        startDateString.bind(onNext: { date in
+            self.fromTxtField.rx.text.onNext(date)
+        }).disposed(by: bag)
+        endDateString.bind(onNext: { date in
+            self.endTxtField.rx.text.onNext(date)
+        }).disposed(by: bag)
+        self.searchInRelay.bind(onNext: { searches in
+            self.searchInResult.rx.text.onNext(SearchInProducer.concatenatedArray(searches))
+        })
+    }
 
     func showDatePicker() {
         self.fromTxtField.setInputViewDatePicker(target: self, selector: #selector(doneTappedFrom))
@@ -51,7 +83,8 @@ class FilterController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .long
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            self.fromTxtField.text = dateFormatter.string(from: datePicker.date)
+            let dateString = dateFormatter.string(from: datePicker.date)
+            startDateString.accept(dateString)
         }
         self.fromTxtField.resignFirstResponder()
     }
@@ -61,19 +94,10 @@ class FilterController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .long
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            self.endTxtField.text = dateFormatter.string(from: datePicker.date)
+            let dateString = dateFormatter.string(from: datePicker.date)
+            endDateString.accept(dateString)
         }
         self.endTxtField.resignFirstResponder()
-    }
-
-    @objc func dateChanged(_ sender: UIDatePicker?) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .none
-            
-        if let date = sender?.date {
-            print("Picked the date \(dateFormatter.string(from: date))")
-        }
     }
 
     @objc func onDoneButtonClick() {
@@ -83,21 +107,29 @@ class FilterController: UIViewController {
     
     @objc func stackviewTapped() {
         let nextVc = SearchInController()
+        nextVc.selectedArray.accept(searchInRelay.value)
         navigationController?.pushViewController(nextVc, animated: true)
         nextVc.selectedValue.asObservable().subscribe(onNext: { [weak self] searches in
-            if searches.count == 3 {
-                self?.searchInResult.text = "All"
-            } else {
-                let concat = searches.joined(separator: ", ")
-                self?.searchInResult.text = concat
-            }
-        })
+            self?.searchInRelay.accept(searches)
+        }).disposed(by: bag)
     }
     
     @IBAction func handleDismiss(_ sender: Any?) {
-        self.dismiss(animated: true) {
-            self.navigationController?.dismiss(animated: true, completion: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func handleApply() {
+        self.dismiss(animated: true, completion: {
+            let currentSearch = Search(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
+            self.searchRelay.accept(currentSearch)
+        })
+    }
+    
+    @IBAction func handleClear(_ sender: Any?) {
+        endDateString.accept("")
+        startDateString.accept("")
+        searchInRelay.accept([])
+        searchRelay.accept(Search(startDate: "", endDate: "", searchIn: []))
     }
     
     private func setupNavItems() {
@@ -111,7 +143,7 @@ class FilterController: UIViewController {
         clearBtn.setImage(UIImage.init(systemName: "trash")!.withRenderingMode(.alwaysOriginal), for: .normal)
         clearBtn.contentHorizontalAlignment = .center
         clearBtn.contentVerticalAlignment = .center
-        clearBtn.addTarget(self, action: #selector(handleDismiss(_:)), for: .touchUpInside)
+        clearBtn.addTarget(self, action: #selector(handleClear(_:)), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: clearBtn)
     }
     
