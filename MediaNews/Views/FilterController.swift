@@ -18,7 +18,9 @@ class FilterController: UIViewController {
     var endTxtField = UITextField()
     var footerStack = UIStackView()
     var searchInResult = UILabel()
+    
     let bag = DisposeBag()
+    
     let searchSubject = PublishSubject<Filter>()
     var searchValue: Observable<Filter>{
         return searchSubject.asObservable()
@@ -114,24 +116,13 @@ class FilterController: UIViewController {
         }).disposed(by: bag)
     }
     
-    @IBAction func handleDismiss(_ sender: Any?) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     @objc func handleApply() {
         self.dismiss(animated: true, completion: {
             let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
             self.searchRelay.accept(currentSearch)
         })
     }
-    
-    @IBAction func handleClear(_ sender: Any?) {
-        endDateString.accept("")
-        startDateString.accept("")
-        searchInRelay.accept([])
-        searchRelay.accept(Filter(startDate: "", endDate: "", searchIn: []))
-    }
-    
+
     private func setupNavItems() {
         let dismissButton = UIButton(type: .system)
         dismissButton.setImage(UIImage.init(systemName: "xmark")!.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -145,6 +136,17 @@ class FilterController: UIViewController {
         clearBtn.contentVerticalAlignment = .center
         clearBtn.addTarget(self, action: #selector(handleClear(_:)), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: clearBtn)
+    }
+    
+    @objc func handleDismiss(_ sender: Any?) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func handleClear(_ sender: Any?) {
+        endDateString.accept("")
+        startDateString.accept("")
+        searchInRelay.accept([])
+        searchRelay.accept(Filter(startDate: "", endDate: "", searchIn: []))
     }
     
 }

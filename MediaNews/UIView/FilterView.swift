@@ -35,10 +35,13 @@ class FilterView: UIView {
         bodyStackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         bodyStackView.heightAnchor.constraint(equalToConstant: self.bounds.height / 5).isActive = true
         bodyStackView.widthAnchor.constraint(equalToConstant: self.bounds.width).isActive = true
+        fromDateTxtField.translatesAutoresizingMaskIntoConstraints = false
         bodyStackView.addArrangedSubview(fromLabel)
         bodyStackView.addArrangedSubview(fromDateTxtField)
         bodyStackView.addArrangedSubview(endLabel)
         bodyStackView.addArrangedSubview(endDateTxtfield)
+        fromDateTxtField.widthAnchor.constraint(equalToConstant: self.bounds.width - 20).isActive = true
+        endDateTxtfield.widthAnchor.constraint(equalToConstant: self.bounds.width - 20).isActive = true
         addSubview(footerStackview)
         footerStackview.translatesAutoresizingMaskIntoConstraints = false
         footerStackview.topAnchor.constraint(equalTo: self.bodyStackView.bottomAnchor, constant: 20).isActive = true

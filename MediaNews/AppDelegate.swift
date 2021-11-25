@@ -14,8 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let BarButtonItemAppearance = UIBarButtonItem.appearance()
-        UINavigationBar.appearance().tintColor = .black
+        UINavigationBar.appearance().tintColor = .orange
         return true
     }
 

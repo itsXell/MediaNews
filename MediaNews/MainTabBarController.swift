@@ -18,11 +18,11 @@ class MainTabBarController: UITabBarController {
     }
     
     func setupTabBar() {
-        let homeNavigation = templateNavController(viewTitle:"Home", unselectImage: UIImage(systemName: "house")!, selectedImage: UIImage(systemName: "house.fill")!, rootViewController: HomeController())
-        let searchNavigation = templateNavController(viewTitle:"Search", unselectImage: UIImage(systemName: "magnifyingglass.circle")!, selectedImage: UIImage(systemName: "magnifyingglass.circle.fill")!, rootViewController: SearchController())
-        let newNavigation = templateNavController(viewTitle:"News", unselectImage: UIImage(systemName: "newspaper")!, selectedImage: UIImage(systemName: "newspaper.fill")!, rootViewController: NewsListController())
-        let userNavigation = templateNavController(viewTitle:"Profile", unselectImage: UIImage(systemName: "person.circle")!, selectedImage: UIImage(systemName: "person.circle.fill")!, rootViewController: ProfileController())
-        let moreNavigation = templateNavController(viewTitle:"More", unselectImage: UIImage(systemName: "ellipsis.circle")!, selectedImage: UIImage(systemName: "ellipsis.circle.fill")!, rootViewController: MoreController())
+        let homeNavigation = templateNavController(viewTitle:"Home", unselectImage: UIImage(systemName: "house")!, selectedImage: (UIImage(systemName: "house")?.withTintColor(.orange))!, rootViewController: HomeController())
+        let searchNavigation = templateNavController(viewTitle:"Search", unselectImage: UIImage(systemName: "magnifyingglass.circle")!, selectedImage: (UIImage(systemName: "magnifyingglass.circle")?.withTintColor(.orange))!, rootViewController: SearchController())
+        let newNavigation = templateNavController(viewTitle:"News", unselectImage: UIImage(systemName: "newspaper")!, selectedImage: (UIImage(systemName: "newspaper")?.withTintColor(.orange))!, rootViewController: NewsListController())
+        let userNavigation = templateNavController(viewTitle:"Profile", unselectImage: UIImage(systemName: "person.circle")!, selectedImage: (UIImage(systemName: "person.circle")?.withTintColor(.orange))!, rootViewController: ProfileController())
+        let moreNavigation = templateNavController(viewTitle:"More", unselectImage: UIImage(systemName: "ellipsis.circle")!, selectedImage: (UIImage(systemName: "ellipsis.circle")?.withTintColor(.orange))!, rootViewController: MoreController())
         viewControllers = [homeNavigation, newNavigation, searchNavigation, userNavigation, moreNavigation]
         guard let items = tabBar.items else { return }
         for item in items {
@@ -35,6 +35,7 @@ class MainTabBarController: UITabBarController {
         viewNavigation.tabBarItem.image = unselectImage.withRenderingMode(.alwaysOriginal)
         viewNavigation.tabBarItem.selectedImage = selectedImage.withRenderingMode(.alwaysOriginal)
         viewNavigation.tabBarItem.title = viewTitle
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.orange], for:.selected)
         viewNavigation.navigationBar.setBackgroundImage(UIImage(), for: .default)
         viewNavigation.navigationBar.shadowImage = UIImage()
         viewNavigation.navigationBar.isTranslucent = false

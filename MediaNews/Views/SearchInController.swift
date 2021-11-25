@@ -24,10 +24,10 @@ class SearchInController: UIViewController, UITableViewDataSource, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(selectedArray.value)
         view.backgroundColor = .white
         setupUI()
         registerTableView()
+        setupNavItems()
     }
     
     private func setupUI() {
@@ -45,6 +45,19 @@ class SearchInController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func applyFilter() {
         selectedValueSub.onNext(selectedArray.value)
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func handleClear(_ sender: Any?) {
+        selectedArray.accept([])
+    }
+    
+    private func setupNavItems() {
+        let clearBtn = UIButton(type: .system)
+        clearBtn.setImage(UIImage.init(systemName: "trash")!.withRenderingMode(.alwaysOriginal), for: .normal)
+        clearBtn.contentHorizontalAlignment = .center
+        clearBtn.contentVerticalAlignment = .center
+        clearBtn.addTarget(self, action: #selector(handleClear(_:)), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: clearBtn)
     }
 
 }

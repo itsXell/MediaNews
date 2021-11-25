@@ -109,14 +109,12 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     /* Begin of Action Function*/
     
     private func fetApi(keyword: String, filter: BehaviorRelay<Filter>, sortBy: BehaviorRelay<String>) {
-        self.history.append(keyword)
         self.friendlyLabel.isHidden = true
         spinner.startAnimating()
         guard let keywordEncode = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), let keyword = URL(string: keywordEncode) else {
             return
         }
         let body = URLBodyGenerator().urlBodyGenerator(filter: filter.value, sortBy: sortBy.value)
-        let cleanBody = body.replacingOccurrences(of: " ", with: "")
         let searchUrl = "https://gnews.io/api/v4/search?q=\(keyword)&\(body)&token=\(ApiKey.apiKey)"
         let urlResource = Resource<MainArticle>(url: URL(string: searchUrl)!)
         URLRequest.load(resource: urlResource).observe(on: MainScheduler.instance).retry(3).catchAndReturn(MainArticle(articles: [])) .subscribe(onNext: { articles in
@@ -220,6 +218,9 @@ extension SearchController: UISearchBarDelegate {
             return
         }
         searchKeyWord.accept(text)
+        if !history.contains(text) {
+            self.history.append(text)
+        }
         self.searchBar.endEditing(true)
     }
     

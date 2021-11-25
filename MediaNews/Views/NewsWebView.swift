@@ -50,6 +50,5 @@ class NewsWebView: UIViewController, WKNavigationDelegate {
         return view
     }()
 
-
 }
 

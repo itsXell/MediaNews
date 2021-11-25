@@ -49,7 +49,7 @@ class NewsCell: UITableViewCell {
         descriptionLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 10).isActive = true
         descriptionLabel.leftAnchor.constraint(equalTo: self.titleImage.rightAnchor, constant: 10).isActive = true
         descriptionLabel.rightAnchor.constraint(equalTo: self.backgroundUIView.rightAnchor, constant: -10).isActive = true
-        descriptionLabel.bottomAnchor.constraint(equalTo: self.backgroundUIView.bottomAnchor, constant: 10).isActive = true
+        descriptionLabel.bottomAnchor.constraint(equalTo: self.backgroundUIView.bottomAnchor, constant: -20).isActive = true
     }
     
     let backgroundUIView: UIView = {
@@ -76,6 +76,8 @@ class NewsCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 15)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         return label
     }()
     
