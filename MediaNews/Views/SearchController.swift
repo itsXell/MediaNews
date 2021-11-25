@@ -42,6 +42,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         setupSearchBar()
         addRightNav()
         setupUI()
+        loadFromCache()
         registerTableview()
         count.accept(CalculateBadge.countBadge(self.currentFilter))
         bindValueWhenLoaded()
@@ -66,7 +67,6 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(NewsCell.self, forCellReuseIdentifier: cellID)
-//        tableView.register(HistoryCell.nib(), forCellReuseIdentifier: HistoryviewCell.id)
     }
     
     private func setupSearchBar() {
@@ -154,6 +154,14 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         }).disposed(by: bag)
     }
     
+    private func loadFromCache() {
+        if let historyCache: [String] = FCache.get("history") {
+            history = historyCache
+        } else {
+            return
+        }
+    }
+    
     /* End of Action Function*/
     
     /* Begin of Didtap Action Function*/
@@ -200,7 +208,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         return presentr
     }()
     
-    @IBAction private func cancelSearch(){
+    @objc private func cancelSearch(){
         titleLabel.text = "History"
         searchBar.text = ""
         searchKeyWord.accept("")
@@ -220,10 +228,10 @@ extension SearchController: UISearchBarDelegate {
         searchKeyWord.accept(text)
         if !history.contains(text) {
             self.history.append(text)
+            FCache.set(history, key: "history", expiry: .seconds(60*60*7) )
         }
         self.searchBar.endEditing(true)
     }
-    
 }
 
 extension SearchController {
@@ -279,7 +287,6 @@ extension SearchController {
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         if !isHistoryCell {
@@ -293,6 +300,5 @@ extension SearchController {
             searchBar.text = history[indexPath.row]
             searchKeyWord.accept(history[indexPath.row])
         }
-      
     }
 }

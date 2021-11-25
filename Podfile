@@ -6,4 +6,5 @@ target 'MediaNews' do
    pod 'RxCocoa'
    pod 'Presentr'
    pod 'AlamofireImage'
+   pod 'Cache'
 end

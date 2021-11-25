@@ -46,6 +46,7 @@ class SearchView: UIView {
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .black
         label.textAlignment = .left
+        label.text = "History"
         return label
     }()
     
@@ -71,8 +72,4 @@ class SearchView: UIView {
         label.text = "Nothing Found 😢"
         return label
     }()
-    
-    
-    
-    
 }

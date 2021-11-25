@@ -45,5 +45,4 @@ class SearchInCell: UITableViewCell {
         repeatSwitch.tintColor = .orange
         return repeatSwitch
     }()
-
 }

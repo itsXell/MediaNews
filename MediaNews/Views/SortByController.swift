@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 class SortByController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-  
+    
     var tableView = UITableView()
     let mockUp = ["Upload date", "Relevance"]
     var selectedMockup = BehaviorRelay<String>(value: "Upload date")
@@ -20,7 +20,7 @@ class SortByController: UIViewController, UITableViewDelegate, UITableViewDataSo
     var selectedValue: Observable<String>{
         return selectedValueSub.asObserver()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -42,7 +42,6 @@ class SortByController: UIViewController, UITableViewDelegate, UITableViewDataSo
         tableView.dataSource = self
         tableView.register(SortByCell.self, forCellReuseIdentifier: cellID)
     }
-    
 }
 
 extension SortByController {
@@ -77,6 +76,5 @@ extension SortByController {
         } else {
             selectedValueSub.onNext("relevance")
         }
-       
     }
 }

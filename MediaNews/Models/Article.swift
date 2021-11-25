@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Article:Decodable {
+struct Article: Codable {
     let title: String?
     let description: String?
     let content: String?
@@ -16,7 +16,7 @@ struct Article:Decodable {
     let publishAt: String?
 }
 
-struct MainArticle:Decodable {
+struct MainArticle: Codable {
     let articles: [Article]
 }
 

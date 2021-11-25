@@ -8,7 +8,7 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -44,5 +44,4 @@ class MainTabBarController: UITabBarController {
         viewNavigation.view.backgroundColor = UIColor.white
         return viewNavigation
     }
-
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 class URLBodyGenerator {
+    
     func urlBodyGenerator(filter: Filter, sortBy: String) -> String {
         var body = ""
         var arrayBody: [String] = ["sortby=\(sortBy)"]

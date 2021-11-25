@@ -16,10 +16,11 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
     var tableView = UITableView()
     var spinner = UIActivityIndicatorView()
     var friendlyLabel = UILabel()
+    let refreshControl = UIRefreshControl()
     let tableCellID = "Cell"
     private var articles: ArticleListVM!
     let bag = DisposeBag()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initialView()
@@ -42,26 +43,64 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(NewsCell.self, forCellReuseIdentifier: tableCellID)
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        print("refresh")
+        fetchApi()
+        refreshControl.endRefreshing()
     }
     
     private func fetchApi() {
-        spinner.startAnimating()
-        let urlResource = Resource<MainArticle>(url: URL(string: "https://gnews.io/api/v4/search?q=example&token=\(ApiKey.apiKey)")!)
-        URLRequest.load(resource: urlResource).observe(on: MainScheduler.instance).retry(3).catchAndReturn(MainArticle(articles: [])) .subscribe(onNext: { articles in
-            let articles = articles.articles
-            self.articles = ArticleListVM(articlesList: articles)
+        print(Reachability().isConnectedToNetwork())
+        if Reachability().isConnectedToNetwork(){
             DispatchQueue.main.async {
-                self.spinner.stopAnimating()
-                if articles.count == 0 {
-                    self.friendlyLabel.isHidden = false
-                } else {
-                    self.friendlyLabel.isHidden = true
-                }
-                self.tableView.reloadData()
+                self.spinner.startAnimating()
             }
-        }).disposed(by: bag)
+            let urlResource = Resource<MainArticle>(url: URL(string: "https://gnews.io/api/v4/search?q=marvel&token=\(ApiKey.apiKey)")!)
+            URLRequest.load(resource: urlResource).observe(on: MainScheduler.instance).retry(3).catchAndReturn(MainArticle(articles: [])) .subscribe(onNext: { articles in
+                FCache.set(articles, key: "article")
+                let articles = articles.articles
+                self.articles = ArticleListVM(articlesList: articles)
+                DispatchQueue.main.async {
+                    self.spinner.stopAnimating()
+                    if articles.count == 0 {
+                        self.friendlyLabel.isHidden = false
+                    } else {
+                        self.friendlyLabel.isHidden = true
+                    }
+                    self.tableView.reloadData()
+                }
+            }).disposed(by: self.bag)
+        } else {
+            DispatchQueue.main.async {
+                self.spinner.startAnimating()
+            }
+            if let articles: MainArticle = FCache.get("article") {
+                let articles = articles.articles
+                FCache.set(articles, key: "Article", expiry: .seconds(60*60*7))
+                self.articles = ArticleListVM(articlesList: articles)
+                DispatchQueue.main.async {
+                    self.spinner.stopAnimating()
+                    if articles.count == 0 {
+                        self.friendlyLabel.isHidden = false
+                    } else {
+                        self.friendlyLabel.isHidden = true
+                    }
+                    self.tableView.reloadData()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.spinner.stopAnimating()
+                    self.friendlyLabel.text = "No Internet Connection 😢"
+                    self.friendlyLabel.isHidden = false
+                }
+            }
+        }
     }
-    
 }
 
 extension NewsListController {

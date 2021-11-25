@@ -58,5 +58,4 @@ class NewsListView: UIView {
         label.text = "Fail to Retrieve Data 😢"
         return label
     }()
-    
 }

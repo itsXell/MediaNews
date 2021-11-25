@@ -49,6 +49,5 @@ class NewsWebView: UIViewController, WKNavigationDelegate {
         view.backgroundColor = .lightGray
         return view
     }()
-
 }
 

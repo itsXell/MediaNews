@@ -20,8 +20,4 @@ class HomeController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Home"
     }
-    
-
-
-
 }

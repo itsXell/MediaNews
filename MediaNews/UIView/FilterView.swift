@@ -112,8 +112,6 @@ class FilterView: UIView {
         txtfield.placeholder = "yyyy/mm/dd"
         txtfield.borderStyle = UITextField.BorderStyle.none
         txtfield.layer.borderColor = UIColor.black.withAlphaComponent(0.5).cgColor
-//        txtfield.widthAnchor =  UIScreen.main.bounds.width
-//        txtfield.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         txtfield.layer.borderWidth = 0.5
         txtfield.layer.cornerRadius = 3
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 50))
@@ -185,5 +183,4 @@ class FilterView: UIView {
         button.addTarget(self, action: #selector(FilterController.handleApply), for: .touchUpInside)
         return button
     }()
-
 }

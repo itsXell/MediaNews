@@ -59,7 +59,6 @@ class SearchInController: UIViewController, UITableViewDataSource, UITableViewDe
         clearBtn.addTarget(self, action: #selector(handleClear(_:)), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: clearBtn)
     }
-
 }
 
 extension SearchInController {

@@ -63,5 +63,4 @@ class SearchInView: UIView {
         button.addTarget(self, action: #selector(SearchInController.applyFilter), for: .touchUpInside)
         return button
     }()
-    
 }

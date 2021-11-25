@@ -115,12 +115,25 @@ class FilterController: UIViewController {
             self?.searchInRelay.accept(searches)
         }).disposed(by: bag)
     }
-    
+
     @objc func handleApply() {
-        self.dismiss(animated: true, completion: {
-            let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
-            self.searchRelay.accept(currentSearch)
-        })
+        if startDateString.value != "" && endDateString.value != "" {
+            let startDate = DateConverter.DateConverter(dateString: startDateString.value)
+            let endDate = DateConverter.DateConverter(dateString: endDateString.value)
+            if endDate < startDate {
+                AlertHelper.showAlert(title: "Wrong Input", alert: "End date must be greater than start date", controller: self)
+            } else {
+                self.dismiss(animated: true, completion: {
+                    let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
+                    self.searchRelay.accept(currentSearch)
+                })
+            }
+        } else {
+            self.dismiss(animated: true, completion: {
+                let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
+                self.searchRelay.accept(currentSearch)
+            })
+        }
     }
 
     private func setupNavItems() {
@@ -148,5 +161,4 @@ class FilterController: UIViewController {
         searchInRelay.accept([])
         searchRelay.accept(Filter(startDate: "", endDate: "", searchIn: []))
     }
-    
 }

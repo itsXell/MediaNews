@@ -19,6 +19,4 @@ class SearchInProducer {
             return concat
         }
     }
-    
-    
 }

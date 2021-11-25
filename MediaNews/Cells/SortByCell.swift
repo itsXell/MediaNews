@@ -57,5 +57,4 @@ class SortByCell: UITableViewCell {
         view.layer.cornerRadius = 7.5
         return view
     }()
-
 }

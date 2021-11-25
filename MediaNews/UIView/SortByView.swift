@@ -47,5 +47,4 @@ class SortByView: UIView {
         table.allowsSelection = true
         return table
     }()
-    
 }
