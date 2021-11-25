@@ -15,7 +15,8 @@ You also need the API key from: https://gnews.io/docs/v4#introduction (which is 
 # Technique & Methods
 
 ## NewsListController
-In the NewsListController, the news are load from https://gnews.io and the application will save it into persistent storage which using third-party library call Cache (https://github.com/hyperoslo/Cache) which will use in case of no internet connection and using will still able to see the news in the NewsListView. The content in the persistent storage will expire in 7 days.!
+In the NewsListController, the news are load from https://gnews.io and the application will save it into persistent storage which using third-party library call Cache (https://github.com/hyperoslo/Cache) which will use in case of no internet connection and using will still able to see the news in the NewsListView. The content in the persistent storage will expire in 7 days.
+
 <img width="491" alt="Screen Shot 2564-11-25 at 23 09 42" src="https://user-images.githubusercontent.com/49471123/143481693-bd783d3c-9e25-4e5d-884d-01c4599db0d5.png">
 
 All the article in the new are display by using webview.
