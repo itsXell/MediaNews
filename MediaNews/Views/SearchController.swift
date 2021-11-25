@@ -15,10 +15,12 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     var NavController: UINavigationController!
     let bag = DisposeBag()
-    var currentSearch = Filter(startDate: "", endDate: "", searchIn: [])
+    var currentSearch = BehaviorRelay<Filter>(value: Filter(startDate: "", endDate: "", searchIn: []))
     var count = BehaviorRelay<Int>(value: 0)
     var tableView = UITableView()
     private var articles: ArticleListVM!
+    var sortBy = BehaviorRelay<String>(value: "publishedAt")
+    var searchKeyWord = BehaviorRelay<String>(value: "")
     let cellID = "CellID"
     
     private let searchBar: UISearchBar = {
@@ -35,8 +37,10 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         setupUI()
         registerTableview()
         count.accept(CalculateBadge.countBadge(self.currentSearch))
+        bindValueWhenLoaded()
     }
     
+    //UI relate function
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.searchBar.endEditing(true)
     }
@@ -56,7 +60,6 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     private func setupSearchBar() {
         navigationController?.navigationBar.topItem?.titleView = searchBar
     }
-    
     
     private func addRightNav() {
         let label = UILabel(frame: CGRect(x: 10, y: -10, width: 20, height: 20))
@@ -91,23 +94,74 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         let sortBtn = UIBarButtonItem(image: filterImg,  style: .plain, target: self, action: #selector(didTapSortButton(sender:)))
         navigationItem.rightBarButtonItems = [sortBtn,filterBtn]
     }
+    /* End of UI Related function*/
+    
+    /* Begin of Action Function*/
+    
+    private func fetApi(keyword: String, filter: BehaviorRelay<Filter>, sortBy: BehaviorRelay<String>) {
+        guard let keywordEncode = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), let keyword = URL(string: keywordEncode) else {
+            return
+        }
+        let body = URLBodyGenerator().urlBodyGenerator(filter: filter.value, sortBy: sortBy.value)
+        let cleanBody = body.replacingOccurrences(of: " ", with: "")
+        print("this is clean body \(cleanBody)")
+        let searchUrl = "https://gnews.io/api/v4/search?q=\(keyword)&\(body)&token=\(ApiKey.apiKey)"
+        print(searchUrl)
+        let urlResource = Resource<MainArticle>(url: URL(string: searchUrl)!)
+        URLRequest.load(resource: urlResource).subscribe(onNext: { articles in
+            let articles = articles.articles
+            self.articles = ArticleListVM(articlesList: articles)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }).disposed(by: bag)
+    }
+    
+    private func bindValueWhenLoaded() {
+        searchKeyWord.bind(onNext: { txt in
+            if txt != "" {
+                self.fetApi(keyword: txt, filter: self.currentSearch, sortBy: self.sortBy)
+            }
+        }).disposed(by: bag)
+        sortBy.bind(onNext: { sort in
+            if self.searchKeyWord.value != "" {
+                self.fetApi(keyword: self.searchKeyWord.value, filter: self.currentSearch, sortBy: self.sortBy)
+            }
+        }).disposed(by: bag)
+        currentSearch.bind(onNext: { filter in
+            if self.searchKeyWord.value != "" {
+                self.fetApi(keyword: self.searchKeyWord.value, filter: self.currentSearch, sortBy: self.sortBy)
+            }
+        }).disposed(by: bag)
+    }
+    
+    /* End of Action Function*/
+    
+    /* Begin of Didtap Action Function*/
     
     @objc func didTapFilter(sender: AnyObject){
         let vc = FilterController()
-        vc.searchRelay.accept(currentSearch)
+        vc.searchRelay.accept(currentSearch.value)
         NavController =  UINavigationController.init(rootViewController: vc)
         NavController.modalPresentationStyle = .fullScreen
         navigationController?.present(NavController, animated: true, completion: nil)
         vc.searchRelay.asObservable().subscribe(onNext: { value in
-            self.currentSearch = Filter(startDate: value.startDate, endDate: value.endDate, searchIn: value.searchIn)
+            self.currentSearch.accept(Filter(startDate: value.startDate, endDate: value.endDate, searchIn: value.searchIn))
             self.count.accept(CalculateBadge.countBadge(self.currentSearch))
         }).disposed(by: bag)
     }
     
     @objc func didTapSortButton(sender: AnyObject){
         let controller = SortByController()
+        if sortBy.value == "publishedAt" {
+            controller.selectedMockup.accept("Upload date")
+        } else {
+            controller.selectedMockup.accept("Relevance")
+        }
         customPresentViewController(presenter, viewController: controller, animated: true, completion: nil)
-
+        controller.selectedValue.asObservable().subscribe(onNext: { data in
+            self.sortBy.accept(data)
+        }).disposed(by: bag)
     }
     
     let presenter: Presentr = {
@@ -127,19 +181,7 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         return presentr
     }()
     
-    private func fetApi(keyword: String, filter: Filter) {
-        guard let keywordEncode = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), let keyword = URL(string: keywordEncode) else {
-            return
-        }
-        let urlResource = Resource<MainArticle>(url: URL(string: "https://gnews.io/api/v4/search?q=\(keyword)&token=\(ApiKey.apiKey)")!)
-        URLRequest.load(resource: urlResource).subscribe(onNext: { articles in
-            let articles = articles.articles
-            self.articles = ArticleListVM(articlesList: articles)
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }).disposed(by: bag)
-    }
+    /* End of Did tap Function*/
     
 }
 
@@ -149,7 +191,7 @@ extension SearchController: UISearchBarDelegate {
         guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else {
             return
         }
-        fetApi(keyword: text, filter: currentSearch)
+        searchKeyWord.accept(text)
     }
     
 }

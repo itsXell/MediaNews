@@ -7,20 +7,21 @@
 
 import Foundation
 import UIKit
+import RxCocoa
 
 class CalculateBadge {
     
-    static func countBadge(_ search: Filter) -> Int {
-        if search.startDate == "" || search.endDate == "" {
-            if search.startDate == "" && search.endDate == "" {
-                return search.searchIn!.count
-            } else if search.startDate == "" && search.endDate != ""{
-                return search.searchIn!.count + 1
+    static func countBadge(_ search: BehaviorRelay<Filter>) -> Int {
+        if search.value.startDate == "" || search.value.endDate == "" {
+            if search.value.startDate == "" && search.value.endDate == "" {
+                return search.value.searchIn!.count
+            } else if search.value.startDate == "" && search.value.endDate != ""{
+                return search.value.searchIn!.count + 1
             } else {
-                return search.searchIn!.count + 1
+                return search.value.searchIn!.count + 1
             }
         } else {
-            return search.searchIn!.count + 2
+            return search.value.searchIn!.count + 2
         }
     }
 }

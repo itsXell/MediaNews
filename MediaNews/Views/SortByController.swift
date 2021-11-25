@@ -16,6 +16,10 @@ class SortByController: UIViewController, UITableViewDelegate, UITableViewDataSo
     var selectedMockup = BehaviorRelay<String>(value: "Upload date")
     let cellID = "CellID"
     let bag = DisposeBag()
+    let selectedValueSub = PublishSubject<String>()
+    var selectedValue: Observable<String>{
+        return selectedValueSub.asObserver()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,5 +72,11 @@ extension SortByController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedMockup.accept(mockUp[indexPath.row])
+        if mockUp[indexPath.row] == "Upload date" {
+            selectedValueSub.onNext("publishedAt")
+        } else {
+            selectedValueSub.onNext("relevance")
+        }
+       
     }
 }
