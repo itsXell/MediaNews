@@ -18,13 +18,14 @@ class SearchInController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     let bag = DisposeBag()
     var selectedArray = BehaviorRelay<[String]>(value: [])
-    
+
     var tableView = UITableView()
     let cellID = "CellID"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        title = "SearchIn View"
         setupUI()
         registerTableView()
         setupNavItems()
@@ -68,6 +69,7 @@ extension SearchInController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! SearchInCell
+        cell.selectionStyle = .none
         cell.titleLabel.text = mockup[indexPath.row]
         self.selectedArray.bind(onNext: { value in
             if value.contains(self.mockup[indexPath.row]) {

@@ -57,6 +57,7 @@ extension SortByController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! SortByCell
         cell.titleLabel.text = mockUp[indexPath.row]
+        cell.selectionStyle = .none
         selectedMockup.asDriver().drive(onNext: { selectedTxt in
             if self.mockUp[indexPath.row] == selectedTxt {
                 cell.selectIndicator.rx.backgroundColor.onNext(UIColor.orange)
