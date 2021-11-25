@@ -8,8 +8,7 @@
 import UIKit
 
 class NewsCell: UITableViewCell {
-    
-
+ 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -20,7 +19,7 @@ class NewsCell: UITableViewCell {
     }
     
     private func setupUI() {
-        backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        backgroundColor = UIColor.clear
         addSubview(backgroundUIView)
         backgroundUIView.translatesAutoresizingMaskIntoConstraints = false
         backgroundUIView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
@@ -33,6 +32,12 @@ class NewsCell: UITableViewCell {
         titleImage.leftAnchor.constraint(equalTo: self.backgroundUIView.leftAnchor).isActive = true
         titleImage.bottomAnchor.constraint(equalTo: self.backgroundUIView.bottomAnchor).isActive = true
         titleImage.widthAnchor.constraint(equalToConstant: self.bounds.width / 2).isActive = true
+        addSubview(historyLabel)
+        historyLabel.translatesAutoresizingMaskIntoConstraints = false
+        historyLabel.topAnchor.constraint(equalTo: self.backgroundUIView.topAnchor, constant: 10).isActive = true
+        historyLabel.leftAnchor.constraint(equalTo: self.backgroundUIView.leftAnchor, constant: 10).isActive = true
+        historyLabel.rightAnchor.constraint(equalTo: self.backgroundUIView.rightAnchor, constant: -10).isActive = true
+        historyLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: self.backgroundUIView.topAnchor, constant: 10).isActive = true
@@ -71,6 +76,15 @@ class NewsCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
+    
+    let historyLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "Hello"
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.isHidden = true
         return label
     }()
 }

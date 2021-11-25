@@ -14,6 +14,8 @@ import AlamofireImage
 class NewsListController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView = UITableView()
+    var spinner = UIActivityIndicatorView()
+    var friendlyLabel = UILabel()
     let tableCellID = "Cell"
     private var articles: ArticleListVM!
     let bag = DisposeBag()
@@ -31,6 +33,8 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
         view.backgroundColor = .lightGray
         let view = NewsListView(frame: self.view.frame)
         self.tableView = view.tableView
+        self.spinner = view.spinner
+        self.friendlyLabel = view.friendlyLabel
         self.view = view
     }
     
@@ -41,11 +45,18 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func fetchApi() {
+        spinner.startAnimating()
         let urlResource = Resource<MainArticle>(url: URL(string: "https://gnews.io/api/v4/search?q=example&token=\(ApiKey.apiKey)")!)
-        URLRequest.load(resource: urlResource).subscribe(onNext: { articles in
+        URLRequest.load(resource: urlResource).observe(on: MainScheduler.instance).retry(3).catchAndReturn(MainArticle(articles: [])) .subscribe(onNext: { articles in
             let articles = articles.articles
             self.articles = ArticleListVM(articlesList: articles)
             DispatchQueue.main.async {
+                self.spinner.stopAnimating()
+                if articles.count == 0 {
+                    self.friendlyLabel.isHidden = false
+                } else {
+                    self.friendlyLabel.isHidden = true
+                }
                 self.tableView.reloadData()
             }
         }).disposed(by: bag)
