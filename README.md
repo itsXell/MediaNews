@@ -28,11 +28,7 @@ In this controller, the end-user can search the news base on the input keyword, 
 As mention above, the application is built using reactive programming. Therefore, the application is run smoothly and tableview is auto reload when there is a value is update. For instance, the filter value is just update, the view will reload instantly to find the new article for the end-user. Plus code is so clean since tableView.reload() does not have to call everytime something update.
 The search history are store in persistent storage as well for the convenience and usefulness of the user experience. The search history in the persistent storage will expire in 7 days !
 
-<img width="491" alt="Screen Shot 2564-11-25 at 23 14 52" src="https://user-images.githubusercontent.com/49471123/143481800-d2143115-3c88-40cd-8dbf-72b112da83d2.png">
-<img width="491" alt="Screen Shot 2564-11-25 at 23 15 07" src="https://user-images.githubusercontent.com/49471123/143481808-0543d887-b2d6-4129-b8dc-8bdb2c67ebfd.png">
-<img width="491" alt="Screen Shot 2564-11-26 at 00 23 21" src="https://user-images.githubusercontent.com/49471123/143482552-c55424b0-3ae2-4ce4-8bc8-3af9d0ac19d5.png">
-<img width="491" alt="Screen Shot 2564-11-25 at 23 16 38" src="https://user-images.githubusercontent.com/49471123/143481821-f5e1f1e8-e1a1-4e34-9b47-58dbf9e946d6.png">
-<img width="491" alt="Screen Shot 2564-11-25 at 23 16 49" src="https://user-images.githubusercontent.com/49471123/143481835-2dc76b64-f5a1-4d8f-8651-116ce92e895c.png">
+<img width="491" alt="Screen Shot 2564-11-25 at 23 14 52" src="https://user-images.githubusercontent.com/49471123/143481800-d2143115-3c88-40cd-8dbf-72b112da83d2.png"><img width="491" alt="Screen Shot 2564-11-25 at 23 15 07" src="https://user-images.githubusercontent.com/49471123/143481808-0543d887-b2d6-4129-b8dc-8bdb2c67ebfd.png"><img width="491" alt="Screen Shot 2564-11-26 at 00 23 21" src="https://user-images.githubusercontent.com/49471123/143482552-c55424b0-3ae2-4ce4-8bc8-3af9d0ac19d5.png"><img width="491" alt="Screen Shot 2564-11-25 at 23 16 38" src="https://user-images.githubusercontent.com/49471123/143481821-f5e1f1e8-e1a1-4e34-9b47-58dbf9e946d6.png"><img width="491" alt="Screen Shot 2564-11-25 at 23 16 49" src="https://user-images.githubusercontent.com/49471123/143481835-2dc76b64-f5a1-4d8f-8651-116ce92e895c.png">
 
 # Third-party Libraries
 Cache - Persistent storage - https://github.com/hyperoslo/Cache
