@@ -33,7 +33,7 @@ public class FCache {
         do {
             try storage!.removeObject(forKey: key)
         } catch {
-            print("Erro")
+            print("Error")
         }
     }
     

@@ -12,17 +12,16 @@ class URLBodyGenerator {
     func urlBodyGenerator(filter: Filter, sortBy: String) -> String {
         var body = ""
         var arrayBody: [String] = ["sortby=\(sortBy)"]
-        switch filter {
-        case _ where filter.startDate != "":
-            arrayBody.append("from=\(filter.startDate ?? "")")
-            fallthrough
-        case _ where filter.endDate != "":
-            arrayBody.append("to=\(filter.endDate ?? "")")
-            fallthrough
-        case _ where filter.searchIn?.count != 0 :
+        if filter.startDate != "" {
+            let startDate = DateConverter.ConvertToUTCString(dateString: filter.startDate!)
+            arrayBody.append("from=\(startDate)")
+        }
+        if filter.endDate != "" {
+            let endDate = DateConverter.ConvertToUTCString(dateString: filter.endDate!)
+            arrayBody.append("to=\(endDate)")
+        }
+        if filter.searchIn?.count != 0 {
             arrayBody.append("in=\(SearchInProducer.concatenatedArray(filter.searchIn!).lowercased().replacingOccurrences(of: " ", with: ""))")
-        default:
-            body = sortBy
         }
         body = concatenatedBody(arrayBody)
         return body
@@ -33,3 +32,4 @@ class URLBodyGenerator {
         return concat
     }
 }
+

@@ -20,7 +20,6 @@ class FilterController: UIViewController {
     var searchInResult = UILabel()
     
     let bag = DisposeBag()
-    
     let searchSubject = PublishSubject<Filter>()
     var searchValue: Observable<Filter>{
         return searchSubject.asObservable()
@@ -40,6 +39,8 @@ class FilterController: UIViewController {
         setupNavItems()
         bindUIView()
     }
+    
+    /*Begin Setup User Interface*/
     
     private func setupView() {
         let view = FilterView(frame: self.view.frame)
@@ -74,6 +75,10 @@ class FilterController: UIViewController {
             self.searchInResult.rx.text.onNext(SearchInProducer.concatenatedArray(searches))
         }).disposed(by: bag)
     }
+    
+    /* End Setup User Interface*/
+    
+    /* Begin implement of Date Picker Controller*/
 
     func showDatePicker() {
         self.fromTxtField.setInputViewDatePicker(target: self, selector: #selector(doneTappedFrom))
@@ -101,40 +106,10 @@ class FilterController: UIViewController {
         }
         self.endTxtField.resignFirstResponder()
     }
-
-    @objc func onDoneButtonClick() {
-        toolBar.removeFromSuperview()
-        datePicker.removeFromSuperview()
-    }
     
-    @objc func stackviewTapped() {
-        let nextVc = SearchInController()
-        nextVc.selectedArray.accept(searchInRelay.value)
-        navigationController?.pushViewController(nextVc, animated: true)
-        nextVc.selectedValue.asObservable().subscribe(onNext: { [weak self] searches in
-            self?.searchInRelay.accept(searches)
-        }).disposed(by: bag)
-    }
-
-    @objc func handleApply() {
-        if startDateString.value != "" && endDateString.value != "" {
-            let startDate = DateConverter.DateConverter(dateString: startDateString.value)
-            let endDate = DateConverter.DateConverter(dateString: endDateString.value)
-            if endDate < startDate {
-                AlertHelper.showAlert(title: "Wrong Input", alert: "End date must be greater than start date", controller: self)
-            } else {
-                self.dismiss(animated: true, completion: {
-                    let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
-                    self.searchRelay.accept(currentSearch)
-                })
-            }
-        } else {
-            self.dismiss(animated: true, completion: {
-                let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
-                self.searchRelay.accept(currentSearch)
-            })
-        }
-    }
+    /* End implement of Date Picker Controller*/
+    
+    /* Begin implement Navigation Setup and action*/
 
     private func setupNavItems() {
         let dismissButton = UIButton(type: .system)
@@ -160,5 +135,38 @@ class FilterController: UIViewController {
         startDateString.accept("")
         searchInRelay.accept([])
         searchRelay.accept(Filter(startDate: "", endDate: "", searchIn: []))
+    }
+    
+    /* Begin implement Navigation Setup and action*/
+    
+    /*Button Action*/
+    
+    @objc func stackviewTapped() {
+        let nextVc = SearchInController()
+        nextVc.selectedArray.accept(searchInRelay.value)
+        navigationController?.pushViewController(nextVc, animated: true)
+        nextVc.selectedValue.asObservable().subscribe(onNext: { [weak self] searches in
+            self?.searchInRelay.accept(searches)
+        }).disposed(by: bag)
+    }
+    
+    @objc func handleApply() {
+        if startDateString.value != "" && endDateString.value != "" {
+            let startDate = DateConverter.DateConverter(dateString: startDateString.value)
+            let endDate = DateConverter.DateConverter(dateString: endDateString.value)
+            if endDate < startDate {
+                AlertHelper.showAlert(title: "Wrong Input", alert: "End date must be greater than start date", controller: self)
+            } else {
+                self.dismiss(animated: true, completion: {
+                    let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
+                    self.searchRelay.accept(currentSearch)
+                })
+            }
+        } else {
+            self.dismiss(animated: true, completion: {
+                let currentSearch = Filter(startDate: self.startDateString.value, endDate: self.endDateString.value, searchIn: self.searchInRelay.value)
+                self.searchRelay.accept(currentSearch)
+            })
+        }
     }
 }

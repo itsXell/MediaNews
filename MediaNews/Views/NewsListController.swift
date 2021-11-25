@@ -49,13 +49,11 @@ class NewsListController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        print("refresh")
         fetchApi()
         refreshControl.endRefreshing()
     }
     
     private func fetchApi() {
-        print(Reachability().isConnectedToNetwork())
         if Reachability().isConnectedToNetwork(){
             DispatchQueue.main.async {
                 self.spinner.startAnimating()

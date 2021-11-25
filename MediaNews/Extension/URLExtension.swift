@@ -5,7 +5,6 @@
 //  Created by Xell on 23/11/2564 BE.
 //
 
-
 import Foundation
 import RxSwift
 import RxCocoa
@@ -19,7 +18,6 @@ extension URLRequest {
     static func load<T>(resource: Resource<T>) -> Observable<T> {
         return Observable.just(resource.url).flatMap({ url -> Observable<(response: HTTPURLResponse, data: Data)> in
             let request = URLRequest(url: url )
-            
             return URLSession.shared.rx.response(request: request)
         }).map({ response ,data -> T in
             if 200..<300 ~= response.statusCode {
