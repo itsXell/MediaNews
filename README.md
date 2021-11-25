@@ -19,6 +19,7 @@ In the NewsListController, the news are load from https://gnews.io and the appli
 <img width="491" alt="Screen Shot 2564-11-25 at 23 09 42" src="https://user-images.githubusercontent.com/49471123/143481693-bd783d3c-9e25-4e5d-884d-01c4599db0d5.png">
 
 All the article in the new are display by using webview.
+
 <img width="491" alt="Screen Shot 2564-11-25 at 23 11 13" src="https://user-images.githubusercontent.com/49471123/143481746-7d50ab9f-646a-4089-98ee-44305aba87c2.png">
 
 ## SearchController
